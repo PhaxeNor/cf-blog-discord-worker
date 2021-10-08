@@ -1,0 +1,12 @@
+name = "cf-blog-discord-worker"
+type = "webpack"
+account_id = "fc08588692d3f34a216a433e6d49611f"
+workers_dev = true
+compatibility_date = "2021-10-04"
+
+kv_namespaces = [
+    { binding = "KV", id = "54808acaacc046b3a6beb8e216be2491" }
+]
+
+[triggers]
+crons = ["* * * * *"]

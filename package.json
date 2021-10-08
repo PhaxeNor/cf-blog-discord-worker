@@ -1,0 +1,20 @@
+{
+  "name": "cf-blog-discord-worker",
+  "version": "1.0.0",
+  "description": "A Cloudflare Worker to check their blog and post to discord.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "miniflare",
+    "build": "webpack ."
+  },
+  "author": "PhaxeNor (@PhaxeNor)",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^5.56.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {
+    "htmlparser2": "^7.1.2"
+  }
+}
