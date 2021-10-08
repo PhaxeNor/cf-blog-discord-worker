@@ -7,13 +7,21 @@ Initially wanted CF Blog post updates on my private discord, to help me keep var
 But after reading the Cloudflare Dev Discord and them also wanted something for their server, but with threads, I decided to change it around and support that. Possibly for my own future use too.
 
 Thank you @WalshyDev for the CF Status Worker and inspiration from that.
+And thank you @Erisa for input on the readme
 
 ---
-### Setup
-All you need to do is click the "Deploy with Workers" button, then follow the steps.
-Then add two new secrets in the Github repo called `CHANNEL_ID` and `DISCORD_BOT_TOKEN`
+### How to set up
+All you need to do is click the "Deploy with Workers" button, then follow the steps until you get to **Fork repo**\
+Once you're on this step, there is a few things you need to change before you continue. First off, fork the repo, then do the following:
 
-That's it, and now the worker will post any new blog posts within the minute of it being posted.
+- Add 2 Github Repo Secrets
+  - `CHANNEL_ID` - The channel you want this to be posted in
+  - `DISCORD_BOT_TOKEN` - Your bot's token
+- Create a new KV namespace and update the KV namespace id in `wrangler.toml` to match the one you just created.
+
+__Github Repo Secrets location__\
+`https://github.com/{username}/{repo}/settings/secrets/actions`
+
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PhaxeNor/cf-blog-discord-worker)
 
