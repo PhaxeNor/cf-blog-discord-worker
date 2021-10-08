@@ -10,7 +10,9 @@ Thank you @WalshyDev for the CF Status Worker and inspiration from that.
 
 ---
 ### Setup
-All you need to do is click the "Deploy with Workers" button, then add two new secrets in the Github repo called `CHANNEL_ID` and `DISCORD_BOT_TOKEN`\
+All you need to do is click the "Deploy with Workers" button, then follow the steps.
+Then add two new secrets in the Github repo called `CHANNEL_ID` and `DISCORD_BOT_TOKEN`
+
 That's it, and now the worker will post any new blog posts within the minute of it being posted.
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PhaxeNor/cf-blog-discord-worker)

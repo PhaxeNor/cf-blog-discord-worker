@@ -1,5 +1,7 @@
 import { parseFeed } from 'htmlparser2';
 
+const Config = require('./config.json')
+
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request)
       .catch((err) => new Response(err.stack, { status: 500 }))
@@ -18,7 +20,7 @@ addEventListener('scheduled', event => {
 async function handleRequest(event) {
   // User-Agent, or we'll be hit with the are you human check
   const response = await fetch('https://blog.cloudflare.com/rss', {
-      headers: { 'User-Agent': `CF-Blog-Discord-Worker (https://github.com/phaxenor/cf-blog-discord-worker)` }
+      headers: { 'User-Agent': Config.userAgent }
   });
 
   const xml = await response.text();
@@ -69,11 +71,15 @@ async function createUpdate(kv, post) {
 
   post.messageId = cachedData.messageId
 
-  if(date.getTime() !== cachedDate.getTime()) {
+  const hasUpdated = (
+      date.getTime() !== cachedDate.getTime() ||
+      post.link !== cachedData.link ||
+      post.title !== cachedData.title
+  )
+
+  if(hasUpdated) {
     await KV.put(cachedData.id, JSON.stringify(post))
-
-    post.updatedTitle = cachedData.title !== post.title;
-
+    post.hasUpdate = true
     await sendMessage(post)
   }
 }
@@ -81,7 +87,24 @@ async function createUpdate(kv, post) {
 async function sendMessage(post) {
 
   const messageId = post.messageId;
-  const update = messageId !== undefined
+  const update = post.hasUpdate
+
+  const data = {
+    title: post.title,
+    url: post.link,
+    description: post.description,
+    color: 0xf48120,
+    image: {
+      url: post.image,
+    },
+    timestamp: post.pubDate
+  }
+
+  if(Config.useEmbedThumbnail) Object.assign(data, {
+    thumbnail: {
+      url: 'https://blog.cloudflare.com/favicon_package_v0.16/apple-touch-icon.png'
+    }
+  })
 
   const res = await fetch(update ? `https://discord.com/api/v9/channels/${CHANNEL_ID}/messages/${messageId}` : `https://discord.com/api/v9/channels/${CHANNEL_ID}/messages`, {
     method: update ? 'PATCH' : 'POST',
@@ -90,19 +113,7 @@ async function sendMessage(post) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      embeds: [{
-        title: post.title,
-        url: post.link,
-        description: post.description,
-        color: 0xf48120,
-        image: {
-          url: post.image,
-        },
-        thumbnail: {
-          url: 'https://blog.cloudflare.com/favicon_package_v0.16/apple-touch-icon.png'
-        },
-        timestamp: post.pubDate
-      }]
+      embeds: [data]
     })
   });
 
@@ -122,7 +133,7 @@ async function sendMessage(post) {
     })
 
     return msg.id
-  } else if (post.updatedTitle) {
+  } else {
     await fetch(`https://discord.com/api/v9/channels/${messageId}`, {
       method: 'PATCH',
       headers: {
