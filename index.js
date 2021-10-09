@@ -31,7 +31,7 @@ async function handleRequest(event) {
     post.image = post.media[0].url;
     delete post.media;
 
-    const kv = await KV.get(post.id)
+    const kv = await KV.get(Config.kvPrefix + post.id)
     if(kv === null) await createNew(post)
     else await createUpdate(kv, post)
   }));
@@ -54,7 +54,7 @@ async function createNew(post) {
   // Only post if the post date is no older than 1 day. (To catch up, and avoid API spam)
   if(postDate > prevDate) {
     post.messageId = await sendMessage(post);
-    await KV.put(post.id, JSON.stringify(post))
+    await KV.put(Config.kvPrefix + post.id, JSON.stringify(post))
   }
 }
 
@@ -78,7 +78,7 @@ async function createUpdate(kv, post) {
   )
 
   if(hasUpdated) {
-    await KV.put(cachedData.id, JSON.stringify(post))
+    await KV.put(Config.kvPrefix + cachedData.id, JSON.stringify(post))
     post.hasUpdate = true
     await sendMessage(post)
   }
