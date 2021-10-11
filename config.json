@@ -1,5 +1,6 @@
 {
   "useEmbedThumbnail": false,
+  "discordCrosspost": false,
   "userAgent": "CF-Blog-Discord-Worker (https://github.com/phaxenor/cf-blog-discord-worker)",
   "kvPrefix": ""
 }

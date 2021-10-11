@@ -132,6 +132,17 @@ async function sendMessage(post) {
       })
     })
 
+    // Added mainly for use in the Cloudflare Dev discord
+    if(Config.discordCrosspost) {
+      await fetch(`https://discord.com/api/v9/channels/${CHANNEL_ID}/messages/${msg.id}/crosspost`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bot ' + DISCORD_BOT_TOKEN,
+          'Content-Type': 'application/json'
+        }
+      })
+    }
+
     return msg.id
   } else {
     await fetch(`https://discord.com/api/v9/channels/${messageId}`, {
