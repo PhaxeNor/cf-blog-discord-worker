@@ -22,8 +22,26 @@ Once you're on this step, there is a few things you need to change before you co
 __Github Repo Secrets location__\
 `https://github.com/{username}/{repo}/settings/secrets/actions`
 
-
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PhaxeNor/cf-blog-discord-worker)
+
+### Config
+Default Config
+```json
+{
+  "useEmbedThumbnail": false,
+  "discordCrosspost": false,
+  "userAgent": "CF-Blog-Discord-Worker (https://github.com/phaxenor/cf-blog-discord-worker)",
+  "kvPrefix": ""
+}
+```
+
+`useEmbedThumbnail`: Add a Cloudflare thumbnail icon. Useful if you have more messages posted by the same bot.
+
+`discordCrosspost`: Crosspost (Discord News Channel) messages to followers. 
+
+`userAgent`: The user agent used when making web requests
+
+`kvPrefix`: Prefix for your key-value namespace, if needed. 
 
 ### Example
 ![Discord Cloudflare Blog Post](https://user-images.githubusercontent.com/323222/136501524-6411edf0-5eac-4ae7-b3aa-405735f6f19e.png)
