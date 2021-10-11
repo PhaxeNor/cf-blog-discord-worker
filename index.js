@@ -110,7 +110,8 @@ async function sendMessage(post) {
     method: update ? 'PATCH' : 'POST',
     headers: {
       'Authorization': 'Bot ' + DISCORD_BOT_TOKEN,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'User-Agent': Config.userAgent
     },
     body: JSON.stringify({
       embeds: [data]
@@ -124,7 +125,8 @@ async function sendMessage(post) {
       method: 'POST',
       headers: {
         'Authorization': 'Bot ' + DISCORD_BOT_TOKEN,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': Config.userAgent
       },
       body: JSON.stringify({
         name: post.title,
@@ -138,7 +140,8 @@ async function sendMessage(post) {
         method: 'POST',
         headers: {
           'Authorization': 'Bot ' + DISCORD_BOT_TOKEN,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'User-Agent': Config.userAgent
         }
       })
     }
@@ -149,7 +152,8 @@ async function sendMessage(post) {
       method: 'PATCH',
       headers: {
         'Authorization': 'Bot ' + DISCORD_BOT_TOKEN,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': Config.userAgent
       },
       body: JSON.stringify({
         name: post.title
