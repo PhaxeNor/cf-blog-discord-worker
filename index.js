@@ -54,7 +54,11 @@ async function createNew(post) {
   // Only post if the post date is no older than 1 day. (To catch up, and avoid API spam)
   if(postDate > prevDate) {
     post.messageId = await sendMessage(post);
-    await KV.put(Config.kvPrefix + post.id, JSON.stringify(post))
+
+    // dont save to KV if it failed
+    if (post.messageId) {
+      await KV.put(Config.kvPrefix + post.id, JSON.stringify(post))
+    }
   }
 }
 
